@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Assignment Manager</title>
+</head>
+<body>
+    <h1>Student Assignment Dashboard</h1>
+    <a href="{{ url_for('add') }}">Add New Assignment</a>
+    <table border="1">
+        <tr>
+            <th>Title</th>
+            <th>Subject</th>
+            <th>Due Date</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.subject }}</td>
+            <td>{{ task.due_date }}</td>
+            <td>{{ task.priority }}</td>
+            <td>{{ task.status }}</td>
+            <td>
+                {% if task.status != 'Completed' %}
+                    <a href="{{ url_for('complete', id=task.id) }}">Mark as Done</a>
+                {% endif %}
+                <a href="{{ url_for('delete', id=task.id) }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
