@@ -1,0 +1,218 @@
+3a. Write a shell script to display current working directory, list of all files
+and display current date and time.
+#!/bin/bash
+echo "Current Working Directory:"
+pwd
+echo -e "\nList of all files and directories:"
+ls -la
+echo -e "\nCurrent Date and Time:"
+date
+
+
+3b. Write a shell script to create a directory, create a file in it and copy the
+file to another directory.
+#!/bin/bash
+# Define directory and file names
+src_dir="source_dir"
+dest_dir="destination_dir"
+filename="example.txt"
+# Create source directory
+mkdir -p "$src_dir"
+echo "Created directory: $src_dir"
+# Create a file inside the source directory
+echo "This is a sample file." > "$src_dir/$filename"
+echo "Created file: $src_dir/$filename"
+# Create destination directory if it doesn't exist
+mkdir -p "$dest_dir"
+echo "Ensured destination directory exists: $dest_dir"
+# Copy the file from source to destination directory
+cp "$src_dir/$filename" "$dest_dir/"
+echo "Copied $filename from $src_dir to $dest_dir"
+
+
+4a. Write a shell script that accepts two filenames as arguments , checks if
+permission for thee files are identical or not.
+#!/bin/bash
+# Check if exactly two arguments are provided
+if [ $# -ne 2 ]; then
+echo "Usage: $0 <file1> <file2>"
+exit 1
+fi
+file1=$1
+file2=$2
+# Check if both files exist
+if [ ! -e "$file1" ]; then
+echo "Error: '$file1' does not exist."
+exit 1
+fi
+if [ ! -e "$file2" ]; then
+echo "Error: '$file2' does not exist."
+exit 1
+fi
+# Get permissions of both files in numeric format
+perm1=$(stat -c "%a" "$file1")
+perm2=$(stat -c "%a" "$file2")
+echo "Permissions:"
+echo "$file1: $perm1"
+echo "$file2: $perm2"
+# Compare permissions
+if [ "$perm1" = "$perm2" ]; then
+echo "Permissions are IDENTICAL."
+else
+echo "Permissions are DIFFERENT."
+fi
+
+
+4c. Shell script to count the number of files and directories in a given path.
+#!/bin/bash
+# Check if exactly one argument is provided
+if [ $# -ne 1 ]; then
+echo "Usage: $0 <directory_path>"
+exit 1
+fi
+path=$1
+# Check if the provided path is a directory
+if [ ! -d "$path" ]; then
+echo "Error: '$path' is not a valid directory."
+exit 1
+fi
+# Count files (regular files)
+file_count=$(find "$path" -type f | wc -l)
+# Count directories
+dir_count=$(find "$path" -type d | wc -l)
+echo "In directory '$path':"
+echo "Number of files: $file_count"
+echo "Number of directories: $dir_count"
+
+
+5a. shell script to accept a name from user and greet them with a message
+#!/bin/bash
+# Check if a name was provided as a command-line argument
+if [ -n "$1" ]; then
+name="$1"
+echo "Hello, $name! (from command-line argument)"
+else
+# Ask the user to enter their name
+echo -n "Please enter your name: "
+read name
+echo "Hello, $name! (from user input)"
+fi
+
+
+5b. shell script to add two numbers passed as command line arguments.
+#!/bin/bash
+# Check if exactly two arguments are provided
+if [ $# -ne 2 ]; then
+echo "Usage: $0 <num1> <num2>"
+exit 1
+fi
+# Read numbers from command-line arguments
+num1=$1
+num2=$2
+# Perform addition using arithmetic expansion
+sum=$((num1 + num2))
+# Display the result
+echo "The sum of $num1 and $num2 is: $sum"
+
+ 
+6a. Shell script to check if a number is even or odd.
+#!/bin/bash
+# Check if exactly one argument is passed
+if [ $# -ne 1 ]; then
+echo "Usage: $0 <number>"
+exit 1
+fi
+# Extract the number from command-line argument
+num=$1
+# Check if input is a valid integer using regex
+if ! [[ "$num" =~ ^-?[0-9]+$ ]]; then
+echo "Error: '$num' is not a valid integer."
+exit 1
+fi
+# Use modulus operator to check even/odd
+if [ $((num % 2)) -eq 0 ]; then
+echo "$num is Even."
+else
+echo "$num is Odd."
+fi
+
+
+6b. Shell script to check whether a file exists and is
+readable/writeable/executable.
+#!/bin/bash
+# Check if a file name was provided
+if [ $# -ne 1 ]; then
+echo "Usage: $0 <filename>"
+exit 1
+fi
+file=$1
+# Check if the file exists
+if [ -e "$file" ]; then
+echo "File '$file' exists."
+# Check readability
+if [ -r "$file" ]; then
+echo "It is readable."
+else
+echo "It is NOT readable."
+fi
+# Check writability
+if [ -w "$file" ]; then
+echo "It is writable."
+else
+echo "It is NOT writable."
+fi
+# Check executability
+if [ -x "$file" ]; then
+echo "It is executable."
+else
+echo "It is NOT executable."
+fi
+else
+exit 1
+echo "File '$file' does NOT exist."
+fi
+
+
+
+
+
+7a. Shell script to print the multiplication table of a given number.
+#!/bin/bash
+# Check if the user provided exactly one argument
+if [ $# -ne 1 ]; then
+echo "Usage: $0 <number>"
+exit 1
+fi
+num=$1
+# Validate that input is a number (integer)
+if ! [[ "$num" =~ ^-?[0-9]+$ ]]; then
+echo "Error: '$num' is not a valid integer."
+exit 1
+fi
+echo "Multiplication Table for $num:"
+for i in {1..10}
+do
+result=$((num * i))
+echo "$num x $i = $result"
+done
+7b. Shell script to find the factorial of a number using while loop.
+#!/bin/bash
+# Check if exactly one argument is passed
+if [ $# -ne 1 ]; then
+echo "Usage: $0 <non-negative-integer>"
+exit 1
+fi
+num=$1
+# Validate input (non-negative integer)
+if ! [[ "$num" =~ ^[0-9]+$ ]]; then
+echo "Error: '$num' is not a non-negative integer."
+exit 1
+fi
+factorial=1
+counter=1
+while [ $counter -le $num ]
+do
+factorial=$((factorial * counter))
+((counter++))
+done
+echo "Factorial of $num is: $factorial"
