@@ -12,22 +12,19 @@ date
 3b. Write a shell script to create a directory, create a file in it and copy the
 file to another directory.
 #!/bin/bash
-# Define directory and file names
-src_dir="source_dir"
-dest_dir="destination_dir"
-filename="example.txt"
-# Create source directory
-mkdir -p "$src_dir"
-echo "Created directory: $src_dir"
-# Create a file inside the source directory
-echo "This is a sample file." > "$src_dir/$filename"
-echo "Created file: $src_dir/$filename"
-# Create destination directory if it doesn't exist
-mkdir -p "$dest_dir"
-echo "Ensured destination directory exists: $dest_dir"
-# Copy the file from source to destination directory
-cp "$src_dir/$filename" "$dest_dir/"
-echo "Copied $filename from $src_dir to $dest_dir"
+echo "Create new directory"
+mkdir dir1
+
+echo "Create a new file inside the directory dir1"
+echo "This is a sample file" > dir1/file.txt
+
+echo "Create second directory"
+mkdir -p dir2
+
+echo "Copy file that was in dir1 to dir2"
+cp dir1/file.txt dir2/
+
+ls -l dir2
 
 
 4a. Write a shell script that accepts two filenames as arguments , checks if
